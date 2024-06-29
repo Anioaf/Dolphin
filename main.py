@@ -46,6 +46,12 @@ class App(ctk.CTk):
         self.content_label = ctk.CTkLabel(self.main_frame, text="", font=custom_font_big)
         self.content_label.grid(row=0, column=0, padx=20, pady=20)
 
+        # Добавление раздела "О нас"
+        self.about_us_label = ctk.CTkLabel(self.main_frame, text="О нас:\n\nЯ ЕБЛАНZZZZZZZZZZZ ZOV ZOV",
+                                          font=custom_font)
+        self.about_us_label.grid(row=0, column=0, padx=20, pady=20)
+        self.about_us_label.grid_remove()  # Скрыть блок "О нас" по умолчанию
+
         # Добавление кнопок в сайдбар
         self.home_button = ctk.CTkButton(self.sidebar_frame, text="Home", font=custom_font, command=self.home_button_event)
         self.home_button.grid(row=1, column=0, padx=20, pady=10)
@@ -57,21 +63,28 @@ class App(ctk.CTk):
         self.settings_button.grid(row=4, column=0, padx=20, pady=10)
 
         # Создание кнопки Toggle Transparency, но не отображать её сразу
-        self.transparency_button = ctk.CTkButton(self.main_frame, text="+", font=custom_font, command=self.toggle_transparency)
+        self.transparency_button = ctk.CTkButton(self.main_frame, text="Trans+", font=custom_font, command=self.toggle_transparency)
         self.transparency_button.grid(row=1, column=0, padx=20, pady=10)
         self.transparency_button.grid_remove()  # Скрыть кнопку по умолчанию
+
+        # Метка для отображения состояния кнопки
+        self.transparency_status_label = ctk.CTkLabel(self.main_frame, text="", font=custom_font)
+        self.transparency_status_label.grid(row=2, column=0, padx=20, pady=10)
 
     def home_button_event(self):
         self.content_label.configure(text="Home")
         self.hide_transparency_button()
+        self.hide_about_us()  # Скрыть раздел "О нас"
 
     def search_button_event(self):
         self.content_label.configure(text="Library")
         self.hide_transparency_button()
+        self.hide_about_us()  # Скрыть раздел "О нас"
 
     def settings_button_event(self):
         self.content_label.configure(text="Settings")
         self.show_transparency_button()
+        self.hide_about_us()  # Скрыть раздел "О нас"
 
     def toggle_transparency(self):
         current_alpha = float(self.attributes("-alpha"))
@@ -93,6 +106,12 @@ class App(ctk.CTk):
             self.transparency_button.configure(text="Trans+")
         else:
             self.transparency_button.configure(text="Trans-")
+
+    def show_about_us(self):
+        self.about_us_label.grid()
+
+    def hide_about_us(self):
+        self.about_us_label.grid_remove()
 
 if __name__ == "__main__":
     app = App()
